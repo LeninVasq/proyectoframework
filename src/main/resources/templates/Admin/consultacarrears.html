@@ -110,7 +110,7 @@
                         <button type="button" class="btn btn-warning" 
                         th:data-id-carrera="${carrera.carrera_id}" 
                         th:data-nombre-carrera="${carrera.nombreCarrera}">Editar</button>
-                <a th:href="@{/home}" class="action-link">Asignar Materias</a>
+                        <a th:href="@{/materias/{id}(id=${carrera.carrera_id})}" class="action-link">Asignar Materias</a>
 
             </td>
                 </tr>

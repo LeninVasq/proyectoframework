@@ -18,21 +18,21 @@ public class Carrerascontroller {
     @Autowired
     private CarrerasService carrerasService;
 
-    @RequestMapping("/carreras")
-    public String vercarreras(Model modelo, @ModelAttribute("successMessage") String successMessage, 
-                              @ModelAttribute("errorMessage") String errorMessage) {
-        List<Carreras> listarcarreras = carrerasService.getcarreras();
-        modelo.addAttribute("list", listarcarreras);
-    
-        if (successMessage != null && !successMessage.isEmpty()) {
-            modelo.addAttribute("successMessage", successMessage);
+        @RequestMapping("/carreras")
+        public String vercarreras(Model modelo, @ModelAttribute("successMessage") String successMessage,
+                                  @ModelAttribute("errorMessage") String errorMessage) {
+            List<Carreras> listarcarreras = carrerasService.getcarreras();
+            modelo.addAttribute("list", listarcarreras);
+
+            if (successMessage != null && !successMessage.isEmpty()) {
+                modelo.addAttribute("successMessage", successMessage);
+            }
+            if (errorMessage != null && !errorMessage.isEmpty()) {
+                modelo.addAttribute("errorMessage", errorMessage);
+            }
+
+            return "Admin/consultacarrears";
         }
-        if (errorMessage != null && !errorMessage.isEmpty()) {
-            modelo.addAttribute("errorMessage", errorMessage);
-        }
-    
-        return "Admin/consultacarrears";
-    }
 
 
 

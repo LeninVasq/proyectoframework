@@ -1,59 +1,145 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymelea.org">
-    <head>
-        <title>Login</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
+<head>
+    <title>Login</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+    />
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"
-        />
-    </head>
+    />
+</head>
 
-    <body>
-        <header>
-            
-            
-        </header>
-        <main>
-            <form method="POST" action="/login">
-                <!-- Email input -->
-                <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="email" name="email" id="form2Example1" class="form-control" required />
-                    <label class="form-label" for="form2Example1">Email address</label>
-                </div>
-                <!-- Password input -->
-                <div data-mdb-input-init class="form-outline mb-4">
-                    <input type="password" name="password" id="form2Example2" class="form-control" required />
-                    <label class="form-label" for="form2Example2">Password</label>
-                </div>
-                <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4">Sign in</button>
-            </form>
-            
-        </main>
-        <footer>
-            <!-- place footer here -->
-        </footer>
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
+<style>
+    body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #1e293b; /* Fondo oscuro */
+        margin: 0;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+    .container {
+        width: 100%;
+        max-width: 400px;
+        padding: 25px;
+        background-color: #2d3748; /* Fondo del formulario */
+        border-radius: 15px;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25); /* Sombra del formulario */
+    }
+
+    .header {
+        text-align: center;
+        color: #ffffff; /* Texto blanco */
+        margin-bottom: 20px;
+        font-weight: bold;
+        font-size: 1.5rem;
+    }
+
+    .form-label {
+        font-size: 0.9rem;
+        font-weight: bold;
+        color: #ffffff; /* Texto claro */
+    }
+
+    .form-control {
+        background-color: #ffffffc0; /* Fondo de los campos */
+        color: #fff; /* Texto de los campos */
+        padding: 12px;
+        font-size: 15px;
+        border-radius: 10px;
+        border: none;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra interna */
+    }
+
+    .form-control:focus {
+        border: 1px solid #4299e1; /* Borde azul al enfocar */
+        box-shadow: 0 0 5px rgba(66, 153, 225, 0.5);
+    }
+
+    .btn {
+        padding: 10px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #4299e1; /* Azul claro */
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn:hover {
+        background-color: #3182ce; /* Azul más oscuro */
+        transform: scale(1.02);
+    }
+
+    .register-text {
+        margin-top: 15px;
+        text-align: center;
+        color: #ffffff; /* Texto gris claro */
+    }
+
+    .register-link {
+        color: #4299e1;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .register-link:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<body>
+<main>
+    <div class="container">
+        <div class="header">Iniciar Sesión</div>
+        <form method="POST" action="/login">
+            <!-- Email input -->
+            <div class="form-outline mb-3">
+                <label for="email" class="form-label">Correo Electrónico</label>
+                <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        class="form-control"
+                        placeholder="Ingresa tu correo"
+                        required
+                />
+            </div>
+
+            <!-- Password input -->
+            <div class="form-outline mb-3">
+                <label for="password" class="form-label">Contraseña</label>
+                <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        class="form-control"
+                        placeholder="Ingresa tu contraseña"
+                        required
+                />
+            </div>
+
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
+        </form>
+
+        <p class="register-text mt-3">
+            ¿No tienes una cuenta?
+            <a href="/register" class="register-link">Regístrate</a>
+        </p>
+    </div>
+</main>
+</body>
 </html>
