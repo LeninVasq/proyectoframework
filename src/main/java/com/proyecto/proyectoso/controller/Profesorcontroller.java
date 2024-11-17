@@ -38,6 +38,27 @@ public class Profesorcontroller {
         }
     }
 
+    @RequestMapping("/home")
+    public String verPaginaDe(HttpSession session) {
+        // Verificar si el atributo 'rol' existe en la sesión
+        String rol = (String) session.getAttribute("rol");
+
+        if (rol == null) {
+            // Redirige a una página de inicio de sesión o error si no hay rol
+            return "redirect:/login"; // Cambia según tu lógica
+        }
+
+        // Validar el rol y retornar la vista correspondiente
+        switch (rol) {
+            case "admin":
+                return "Admin/Index";
+            case "profe":
+                return "Profe/Index";
+            default:
+                return "index"; // Vista para usuarios no autorizados o rol desconocido
+        }
+    }
+
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
@@ -56,7 +77,7 @@ public class Profesorcontroller {
             session.setAttribute("rol", rol);
             return "redirect:/usuario";
         } else {
-            return "error"; // Vista de error en caso de fallo
+            return "error";
         }
     }
 
