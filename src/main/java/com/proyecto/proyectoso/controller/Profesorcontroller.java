@@ -54,7 +54,6 @@ public class Profesorcontroller {
             String rol = profesorService.emaillogin(email);
             session.setAttribute("correo", email);
             session.setAttribute("rol", rol);
-            // Redirigir al endpoint de obtenerUsuario
             return "redirect:/usuario";
         } else {
             return "error"; // Vista de error en caso de fallo
@@ -76,5 +75,7 @@ public class Profesorcontroller {
             return "noSesion"; // Vista de error si no hay sesión activa
         }
     }
+
+
 
 }
