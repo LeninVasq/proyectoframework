@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Title</title>
         <!-- Required meta tags -->
@@ -20,7 +20,16 @@
 
     <body>
         <header>
-            <!-- place navbar here -->
+            <div th:fragment="menu">
+                <nav>
+                    <ul>
+                        <li><a th:href="@{/home}">Home</a></li>
+                        <li><a th:href="@{/dashboard}">Dashboard</a></li>
+                        <li><a th:href="@{/other-page}">Other Page</a></li>
+                        <li><a th:href="@{/logout}">Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
         </header>
         <main>
             admin
