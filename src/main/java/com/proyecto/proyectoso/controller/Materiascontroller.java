@@ -74,16 +74,24 @@ public class Materiascontroller {
 
 
     @PostMapping("/guardarmaterias")
-    public String saveSS(@ModelAttribute Materias materias, RedirectAttributes redirectAttributes) {
+    public String saveSS(@RequestParam("materiaId") Long materiaId,
+                         @RequestParam("nombreCarrera") String nombreCarrera,
+                         @RequestParam("descripcionCarrera") String descripcionCarrera, RedirectAttributes redirectAttributes) {
         try {
-            materiasService.save(materias);
-            redirectAttributes.addFlashAttribute("successMessage",
-                    "Materia guardada exitosamente. ID: " + materias.getMateria_id() +
-                            ", Nombre: " + materias.getNombreMateria());
+            Carreras carrera = carrerasService.getcarreraid(materiaId)
+                    .orElseThrow(() -> new IllegalArgumentException("Carrera no encontrada con ID: " + materiaId));
+
+            Materias materia = new Materias();
+            materia.setNombreMateria(nombreCarrera);
+            materia.setDescripcion(descripcionCarrera);
+            materia.setCarrera(carrera);
+
+            materiasService.save(materia);
+
         } catch (IllegalArgumentException e) {
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
         }
-        return "redirect:/materias/" + materias.getCarrera().getCarrera_id();
+        return "redirect:/materias/" +materiaId;
     }
 
     // Para manejar solicitudes AJAX de paginación

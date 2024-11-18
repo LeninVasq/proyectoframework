@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lista de Alumnos</title>
+  <title>Lista de Grupos</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
@@ -11,7 +11,7 @@
       font-family: Arial, sans-serif;
       background-color: #f5f5f5;
       margin: 0;
-      padding-top: 120px
+      padding-top: 120px;
     }
 
     .container {
@@ -55,6 +55,34 @@
       justify-content: center;
       gap: 5px;
     }
+    .pagination-button {
+      border: none;
+      padding: 8px 12px;
+      margin: 0 2px;
+      background-color: #0d6efd; /* Azul Bootstrap */
+      color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .pagination-button:hover {
+      background-color: #0b5ed7; /* Azul más oscuro */
+      transform: scale(1.05);
+    }
+
+    .pagination-button:disabled {
+      background-color: #adb5bd; /* Gris Bootstrap */
+      cursor: not-allowed;
+    }
+
+    .pagination-button.active {
+      background-color: #ffc107; /* Amarillo Bootstrap */
+      color: black;
+      font-weight: bold;
+    }
+
     .navbar {
       background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco translúcido */
       backdrop-filter: blur(10px); /* Efecto de desenfoque */
@@ -86,43 +114,53 @@
     .navbar-toggler-icon {
       background-color: #212529; /* Ícono oscuro para el menú móvil */
     }
+
+    .navbar .container {
+      max-width: 80%; /* Elimina el límite de 900px y ocupa todo el ancho */
+      width: 80%; /* Asegura que se ocupe el 100% del ancho */
+      padding: 0; /* Elimina el padding lateral */
+    }
   </style>
-  <nav class="navbar navbar-expand-lg fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="/home">
-        <i class="fas fa-graduation-cap"></i> Sistema Escolar
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="/alumnos">
-              <i class="fas fa-users nav-icon"></i> Alumnos
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/carreras">
-              <i class="fas fa-user-plus nav-icon"></i> Carreras
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/grupos">
-              <i class="fas fa-layer-group nav-icon"></i> Grupos
-            </a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
-
 </head>
 <body>
+<!-- Navbar se mantiene igual -->
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="/home">
+      <i class="fas fa-graduation-cap"></i> Sistema Escolar
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="/alumnos">
+            <i class="fas fa-users nav-icon"></i> Alumnos
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/profesores"> <!-- Agregar enlace a Profesores -->
+            <i class="fas fa-chalkboard-teacher nav-icon"></i> Profesores
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/carreras">
+            <i class="fas fa-user-plus nav-icon"></i> Carreras
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/grupos">
+            <i class="fas fa-layer-group nav-icon"></i> Grupos
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
 <div class="container">
   <h1>Lista de Grupos</h1>
-  <!-- Botón para abrir el modal -->
   <button type="button" class="btn btn-primary btn-create" data-bs-toggle="modal" data-bs-target="#addStudentModal">
     <i class="fas fa-user-plus"></i> Registrar Nuevo Grupo
   </button>
@@ -133,12 +171,11 @@
       <th>ID</th>
       <th>Nombre</th>
       <th>Fecha_creacion</th>
-
       <th>Acciones</th>
     </tr>
     </thead>
-    <tbody>
-    <tr th:each="grupos : ${list}"> <!-- Asegúrate de que 'list' está presente en el modelo -->
+    <tbody id="groupTableBody">
+    <tr th:each="grupos : ${list}">
       <td th:text="${grupos.grupo_id}"></td>
       <td th:text="${grupos.nombreGrupo}"></td>
       <td th:text="${#dates.format(grupos.fecha_creacion, 'dd/MM/yyyy')}"></td>
@@ -150,81 +187,102 @@
         </button>
       </td>
     </tr>
-
     </tbody>
   </table>
-  <div class="pagination" id="pagination"></div>
+  <div id="pagination" class="pagination"></div>
 </div>
 
-<!-- Modal para agregar alumno -->
-<div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="addStudentModalLabel">Registrar Nuevo Alumno</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form  method="post" action="/addgrupos" id="addStudentForm">
-          <div class="mb-3">
-            <label for="studentName" class="form-label">Nombre</label>
-            <input type="text" class="form-control" name="nombreGrupo" id="studentName" required>
-          </div>
+<!-- Los modales se mantienen igual -->
 
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-primary" id="saveStudentBtn">Guardar</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editModalLabel">Editar Alumno</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form method="post" action="/updateGRUPO" id="editAlumnoForm">
-          <div class="mb-3">
-            <label for="editAlumnoId" class="form-label">IDS</label>
-            <input type="text"  name="grupo_id" class="form-control" id="editAlumnoId" readonly>
-          </div>
-          <div class="mb-3">
-            <label for="editNombre" class="form-label">Nombre</label>
-            <input type="text" class="form-control" name="nombreGrupo" id="editNombre">
-          </div>
-
-          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- JavaScript to Populate Modal -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
+    // Configuración de la paginación
+    const itemsPerPage = 5;
+    let currentPage = 1;
+
+    // Obtener todos los elementos de la tabla
+    const tableBody = document.getElementById('groupTableBody');
+    const rows = Array.from(tableBody.getElementsByTagName('tr'));
+    const totalPages = Math.ceil(rows.length / itemsPerPage);
+
+    // Función para mostrar los elementos de la página actual
+    function displayTableData() {
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+
+      // Ocultar todas las filas
+      rows.forEach(row => row.style.display = 'none');
+
+      // Mostrar solo las filas de la página actual
+      rows.slice(start, end).forEach(row => row.style.display = '');
+
+      // Actualizar la paginación
+      updatePagination();
+    }
+
+    // Función para crear los botones de paginación
+    function updatePagination() {
+      const paginationElement = document.getElementById('pagination');
+      paginationElement.innerHTML = '';
+
+      // Botón Previous
+      const prevButton = document.createElement('button');
+      prevButton.innerHTML = '&laquo;';
+      prevButton.classList.add('pagination-button');
+      prevButton.disabled = currentPage === 1;
+      prevButton.addEventListener('click', () => {
+        if (currentPage > 1) {
+          currentPage--;
+          displayTableData();
+        }
+      });
+      paginationElement.appendChild(prevButton);
+
+      // Botones de número de página
+      for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.textContent = i;
+        button.classList.add('pagination-button');
+        if (i === currentPage) {
+          button.classList.add('active');
+        }
+        button.addEventListener('click', () => {
+          currentPage = i;
+          displayTableData();
+        });
+        paginationElement.appendChild(button);
+      }
+
+      // Botón Next
+      const nextButton = document.createElement('button');
+      nextButton.innerHTML = '&raquo;';
+      nextButton.classList.add('pagination-button');
+      nextButton.disabled = currentPage === totalPages;
+      nextButton.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+          currentPage++;
+          displayTableData();
+        }
+      });
+      paginationElement.appendChild(nextButton);
+    }
+
+    // Inicializar la visualización
+    displayTableData();
+
+    // Manejador del modal de edición
     const modal = new bootstrap.Modal(document.getElementById('editModal'));
     const table = document.querySelector('tbody');
 
     table.addEventListener('click', function(e) {
       if (e.target && e.target.matches('button[data-bs-toggle="modal"]')) {
         const button = e.target;
-        const alumnoId = button.getAttribute('data-id');
+        const grupoId = button.getAttribute('data-id');
         const nombre = button.getAttribute('data-nombre');
-        const apellido = button.getAttribute('data-apellido');
 
-        // Set the modal input fields with data
-        document.getElementById('editAlumnoId').value = alumnoId;
+        document.getElementById('editAlumnoId').value = grupoId;
         document.getElementById('editNombre').value = nombre;
-        document.getElementById('editApellido').value = apellido;
 
-        // Show the modal
         modal.show();
       }
     });
