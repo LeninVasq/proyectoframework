@@ -11,6 +11,7 @@ import java.util.List;
 public interface MateriasRepostory extends JpaRepository<Materias, Long>{
 
     List<Materias> findByNombreMateria(String nombreMateria);
+//    List<Materias> findByCarrera(Long materia);
 
 
 

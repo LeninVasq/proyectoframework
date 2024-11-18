@@ -18,6 +18,13 @@ public class MateriasService {
         return materiaRepository.findAll();
     }
 
+
+   // public List<Materias> getMateriasid(Long id){
+
+     //   return materiaRepository.findByCarrera(id);
+    //}
+
+
     public List<Materias> getMateriasnombre(String materia){
         return materiaRepository.findByNombreMateria(materia);
     }

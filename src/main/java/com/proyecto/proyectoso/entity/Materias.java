@@ -7,9 +7,9 @@ import lombok.Data;
 @Entity
 @Table(name ="materias")
 public class Materias {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long materia_id;
+                @Id
+                @GeneratedValue(strategy = GenerationType.IDENTITY)
+                private Long materia_id;
     private String nombreMateria;
     private String descripcion;
     @ManyToOne

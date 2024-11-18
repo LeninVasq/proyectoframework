@@ -15,9 +15,9 @@ public class Profesor {
     @Column(name= "correo", unique = true,nullable = false)
     private String correo;
     private String contra;
-    @ManyToOne
-    @JoinColumn(name = "rol_id", referencedColumnName = "rol_id")
-    private Roles rol_id;
+        @ManyToOne
+        @JoinColumn(name = "rol_id", referencedColumnName = "rol_id")
+        private Roles rol_id;
 
     @Column(name = "estado")
     private String estado = "activo";

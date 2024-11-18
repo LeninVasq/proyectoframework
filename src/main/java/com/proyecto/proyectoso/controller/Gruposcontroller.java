@@ -30,6 +30,10 @@ public class Gruposcontroller {
     @RequestMapping("/grupos/{id}")
     public String vercarreras(Model modelo, @PathVariable("id") Long profesorid) {
         List<Grupos> listarcarreras = gruposService.getGrupo();
+        modelo.addAttribute("grupos", listarcarreras);
+
+
+
         List<Grupos> gruposfiltrados = new ArrayList<>();
         Optional<Grupos> grupo = gruposService.getGrupoid(profesorid);
         for (Grupos materia : listarcarreras) {
@@ -41,6 +45,7 @@ public class Gruposcontroller {
         }
 
         modelo.addAttribute("list", gruposfiltrados);
+
         modelo.addAttribute("profesor", profesorid);
 
 
