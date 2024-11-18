@@ -1,6 +1,5 @@
 package com.proyecto.proyectoso.controller;
 
-import com.proyecto.proyectoso.entity.Grupos;
 import com.proyecto.proyectoso.entity.Materias;
 import com.proyecto.proyectoso.entity.Profesor;
 import com.proyecto.proyectoso.service.ALumnosService;
@@ -14,7 +13,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Controller // Cambiado a @Controller porque se están manejando vistas
 public class Profesorcontroller {
@@ -36,52 +34,9 @@ public class Profesorcontroller {
     }
 
 
-    @PostMapping("/updateprofe")
-    public String updateProfesor(
-            @RequestParam("profesor_id") Long profesorId,
-            @RequestParam("nombre") String nombre,
-            @RequestParam("apellido") String apellido,
-            @RequestParam("estado") String estado,
-            @RequestParam("correo") String correo,
-            @RequestParam("contra") String contra) {
-
-        // Imprimir los valores recibidos para verificar
-        System.out.println("Profesor ID: " + profesorId);
-        System.out.println("Nombre: " + nombre);
-        System.out.println("Apellido: " + apellido);
-        System.out.println("Estado: " + estado);
-        System.out.println("Correo: " + correo);
-        System.out.println("Contraseña: " + contra);
-
-        // Buscar al profesor por su ID
-        try {
-            Optional<Profesor> existingProfesor = profesorService.getProfesoresId(profesorId);
-
-            if (existingProfesor.isPresent()) {
-                Profesor profesorToUpdate = existingProfesor.get();
-                profesorToUpdate.setNombre(nombre);
-                profesorToUpdate.setApellido(apellido);
-                profesorToUpdate.setCorreo(correo);
-                profesorToUpdate.setContra(contra);
-
-                // Actualizar el profesor
-                profesorService.saves(profesorToUpdate);
-            } else {
-                System.out.println("Profesor no encontrado.");
-            }
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        }
-
-        // Redirigir a la lista de profesores después de la actualización
-        return "redirect:/profesores";
-    }
-
-
     @PostMapping("/guardarprofe")
     public String saveSS(@ModelAttribute Profesor profesor, RedirectAttributes redirectAttributes) {
         try {
-
             profesorService.saves(profesor);
 
         } catch (IllegalArgumentException e) {
@@ -163,16 +118,19 @@ public class Profesorcontroller {
         String estado = (String) session.getAttribute("estado");
         String rol = (String) session.getAttribute("rol");
 
+        if (estado.equals("jb")){
+            if (rol.equals("admin")) {
 
-            if ("admin".equals(rol)) {
-                return "redirect:/home";
-            } else if ("profe".equals(rol)) {
+                return "Admin/Index";
+            } else if (rol.equals("profe")) {
                 return "Profe/Index";
+
             } else {
                 return "index";
             }
-
-
+        }else {
+            return "index";
+        }
     }
 
 
