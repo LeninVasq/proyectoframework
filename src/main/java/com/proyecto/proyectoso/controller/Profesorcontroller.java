@@ -76,7 +76,6 @@ public class Profesorcontroller {
             return "redirect:/login"; // Cambia según tu lógica
         }
 
-        // Validar el rol y retornar la vista correspondiente
         switch (rol) {
             case "admin":
                 return "Admin/Index";

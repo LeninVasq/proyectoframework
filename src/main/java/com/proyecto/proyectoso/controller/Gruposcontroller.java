@@ -53,6 +53,14 @@ public class Gruposcontroller {
     }
 
 
+    @RequestMapping("/grupos12")
+    public String vercarreras() {
+
+
+        return "Profe/grupos";
+    }
+
+
     @PostMapping("/addgrupos")
     public String saveSS(@ModelAttribute Grupos grupos, @RequestParam("id") Long id) {
         System.out.println("Carrera ID: " + grupos.getGrupo_id());
