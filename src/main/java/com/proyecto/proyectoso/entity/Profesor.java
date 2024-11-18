@@ -20,5 +20,5 @@ public class Profesor {
     private Roles rol_id;
 
     @Column(name = "estado")
-    private String Estado = "activo";
+    private String estado = "activo";
 }

@@ -40,6 +40,12 @@ public class ProfesorService {
         Optional<Profesor> profesor = profesorRepository.findByCorreo(correo);
         return profesor.map(p -> p.getRol_id().getRol()).orElse(null);
     }
+
+
+    public String emailloginp(String correo) {
+        Optional<Profesor> profesor = profesorRepository.findByCorreo(correo);
+        return profesor.map(Profesor::getEstado).orElse(null);
+    }
     public void deleteprofe(Long id) {
         profesorRepository.deleteById(id);
     }

@@ -18,6 +18,10 @@ public class Cruposservice {
     public List<Grupos> getGrupo(){
         return gruposRepository.findAll();
     }
+    public Optional<Grupos> getGrupoid(Long id){
+        return gruposRepository.findById(id);
+    }
+
 
     public void saves(Grupos grupos){
         gruposRepository.save(grupos);

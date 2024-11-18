@@ -20,6 +20,11 @@ public class Grupos {
     @Column(name = "fecha_creacion", nullable = false)
     private Date fecha_creacion;
 
+
+    @ManyToOne
+    @JoinColumn(name = "profesor_id", referencedColumnName = "profesor_id")
+    private Profesor profesor_id;
+
     @PrePersist
     public void setFechaCreacion() {
         if (this.fecha_creacion == null) {
