@@ -18,4 +18,7 @@ public class Profesor {
     @ManyToOne
     @JoinColumn(name = "rol_id", referencedColumnName = "rol_id")
     private Roles rol_id;
+
+    @Column(name = "estado")
+    private String Estado = "activo";
 }

@@ -1,64 +1,200 @@
-
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title>Title</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
 
-        <!-- Bootstrap CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
-    </head>
+<head>
+    <title>Bienvenido - Sistema de Asistencias Escolares</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <body>
-        <header>
-            <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <div class="container-fluid">
-                    <a class="navbar-brand" th:href="@{/home}">Home</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/carreras}">Agregar carrera</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/other-page}">Other Page</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" th:href="@{/logout}">Logout</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-        </header>
-        <main>
-            <h1>Admin Page</h1>
-            <!-- Aquí va el contenido principal de tu página -->
-        </main>
-        <footer>
-            <!-- Aquí va el pie de página -->
-        </footer>
+    <!-- Fuentes Personalizadas -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 
-        <!-- Bootstrap JavaScript Libraries -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #eef2f7;
+            color: #333;
+            line-height: 1.6;
+        }
 
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+        header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 999;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .hero-section {
+            margin-top: 100px;
+            background: linear-gradient(135deg, #0d6efd, #00b8d4);
+            color: white;
+            padding: 80px 20px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .features-section {
+            margin: 60px auto;
+            padding: 20px;
+            max-width: 1100px;
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 30%; /* Asegura que las cards se ajusten en la fila */
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+        }
+
+        .card-header {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #0d6efd;
+        }
+
+        .card-body h2 {
+            font-size: 3rem;
+            margin: 10px 0;
+        }
+
+        .card-body p {
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .card-body a {
+            background-color: #0d6efd;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .card-body a:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background-color: #f1f1f1;
+            text-align: center;
+            padding: 20px;
+            margin-top: 60px;
+            border-top: 1px solid #ddd;
+            font-size: 1rem;
+            color: #777;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        /* Estilos Responsivos */
+        @media screen and (max-width: 768px) {
+            .features-section {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .card {
+                width: 80%; /* Las cards ocuparán más espacio en pantallas pequeñas */
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<!-- Header -->
+<header>
+    <h1>Sistema Escolar</h1>
+</header>
+
+<!-- Sección Hero -->
+<div class="hero-section">
+    <h1>Bienvenido al Sistema de Asistencias</h1>
+    <p>Gestiona las asistencias, los grupos y los alumnos de manera sencilla y eficiente.</p>
+</div>
+
+<!-- Sección de Características -->
+<div class="features-section">
+    <!-- Alumnos -->
+    <div class="card">
+        <div class="card-header">Alumnos</div>
+        <div class="card-body">
+            <p>Total de alumnos: <span th:text="${countAlumnos}"></span></p>
+            <p>Total de alumnos registrados</p>
+            <a href="/alumnos">Ver Alumnos</a>
+        </div>
+    </div>
+
+    <!-- Carreras -->
+    <div class="card">
+        <div class="card-header">Carreras</div>
+        <div class="card-body">
+            <h2>5</h2>
+            <p>Carreras disponibles para los alumnos</p>
+            <a href="/carreras">Ver Carreras</a>
+        </div>
+    </div>
+
+    <!-- Grupos -->
+    <div class="card">
+        <div class="card-header">Grupos</div>
+        <div class="card-body">
+            <h2>8</h2>
+            <p>Grupos asignados para los estudiantes</p>
+            <a href="/grupos">Ver Grupos</a>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2024 Sistema de Asistencias Escolares - Todos los derechos reservados</p>
+</footer>
+</body>
 </html>

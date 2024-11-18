@@ -1,6 +1,7 @@
 package com.proyecto.proyectoso.controller;
 
 import com.proyecto.proyectoso.entity.Profesor;
+import com.proyecto.proyectoso.service.ALumnosService;
 import com.proyecto.proyectoso.service.ProfesorService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,22 @@ public class Profesorcontroller {
 
     @Autowired
     private ProfesorService profesorService;
+    @Autowired
+    private ALumnosService aLumnosService;
+
+
+    @RequestMapping("/profesores")
+    public String add(Model modelo) {
+        List<Profesor> listarcarreras = profesorService.getProfesores();
+        modelo.addAttribute("list", listarcarreras);
+
+
+
+        return "Admin/profesores";
+    }
 
     @RequestMapping("/")
-    public String verPaginaDeInicio(HttpSession session) {
+    public String verPaginaDeInicio(Model model,HttpSession session) {
         // Verificar si el atributo 'rol' existe en la sesión
         String rol = (String) session.getAttribute("rol");
 
@@ -30,6 +44,7 @@ public class Profesorcontroller {
         // Validar el rol y retornar la vista correspondiente
         switch (rol) {
             case "admin":
+
                 return "Admin/Index";
             case "profe":
                 return "Profe/Index";
@@ -79,6 +94,9 @@ public class Profesorcontroller {
             return "index";
         }
     }
+
+
+
 
     @GetMapping("/usuario")
     public String obtenerUsuario(HttpSession session) {

@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de usuarios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
+            margin-top: 150px;
             padding: 20px;
             background-color: #f0f0f0;
         }
@@ -32,14 +36,6 @@
         th {
             background-color: #f8f8f8;
         }
-        .button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
         .action-link {
             color: #007bff;
             text-decoration: none;
@@ -62,85 +58,222 @@
             color: white;
             border: 1px solid #007bff;
         }
-    </style>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pzjw8f+ua7Kw1TIq0w7oERjGFs1a9L3wo2JkQIC2ga9DhjZcJmt9F6lFjXcsdgsI" crossorigin="anonymous"></script>
-    
-    <script>
-        function hideMessage(messageId, delay) {
-            setTimeout(function() {
-                var messageElement = document.getElementById(messageId);
-                if (messageElement) {
-                    messageElement.style.display = 'none';
-                }
-            }, delay);
+        /* Estilo de la notificación */
+        .notification {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px; /* Reducido para ser más pequeño */
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px; /* Menor espacio entre notificaciones */
+            font-size: 14px; /* Fuente más pequeña */
+            position: fixed; /* Fijado en la parte inferior */
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 100%;
+            z-index: 1050; /* Para asegurarse de que la notificación esté encima de otros elementos */
+            display: none; /* Oculta por defecto */
+            animation: fadeIn 0.5s ease-in-out;
         }
 
-        //oculta el emnsaje despues de 20 segundos
-        window.onload = function() {
-                hideMessage("successMessage", 20000);  
-            hideMessage("errorMessage", 20000);    
+        /* Estilo para la notificación de éxito */
+        .notification.success {
+            background-color: #4CAF50; /* Color verde para éxito */
         }
-    </script>
+
+        /* Estilo para la notificación de error */
+        .notification.error {
+            background-color: #F44336; /* Color rojo para error */
+        }
+
+        .notification i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .notification span {
+            flex-grow: 1;
+        }
+
+        .notification .btn-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+        }
+
+        /* Animación de desvanecimiento */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.8); /* Fondo blanco translúcido */
+            backdrop-filter: blur(10px); /* Efecto de desenfoque */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #212529; /* Color oscuro para el texto */
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #212529; /* Color oscuro */
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #0d6efd; /* Azul para hover */
+        }
+
+        .navbar-nav .nav-icon {
+            margin-right: 5px;
+            font-size: 1.2rem;
+        }
+
+        .navbar-toggler-icon {
+            background-color: #212529; /* Ícono oscuro para el menú móvil */
+        }
+
+    </style>
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="/home">
+                <i class="fas fa-graduation-cap"></i> Sistema Escolar
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/alumnos">
+                            <i class="fas fa-users nav-icon"></i> Alumnos
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/carreras">
+                            <i class="fas fa-user-plus nav-icon"></i> Carreras
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/grupos">
+                            <i class="fas fa-layer-group nav-icon"></i> Grupos
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+
 </head>
 <body>
-    <div class="container">
-        <h1>Lista de carreras</h1>
 
-        <p th:if="${successMessage}" id="successMessage" th:text="${successMessage}" class="alert alert-success"></p>
+        <div class="container">
+            <h1>Lista de carreras</h1>
 
-        <p th:if="${errorMessage}" id="errorMessage" th:text="${errorMessage}" class="alert alert-danger"></p>
+            <div th:if="${successMessage}" id="successMessage" class="notification success">
+                <i class="bi bi-check-circle-fill"></i>
+                <span th:text="${successMessage}"></span>
+                <button class="btn-close" onclick="closeNotification('successMessage')">&times;</button>
+            </div>
 
-        <button class="submit btn btn-primary" style="float: right; margin-bottom: 10px;" data-bs-toggle="modal" data-bs-target="#myModal">
-            CREAR
-          </button>
+            <!-- Alerta de error personalizada -->
+            <div th:if="${errorMessage}" id="errorMessage" class="notification error">
+                <i class="bi bi-exclamation-triangle-fill"></i>
+                <span th:text="${errorMessage}"></span>
+                <button class="btn-close" onclick="closeNotification('errorMessage')">&times;</button>
+            </div>
+
+            <button class="submit btn btn-primary" style="float: right; margin-bottom: 10px;" data-bs-toggle="modal" data-bs-target="#myModal">
+                <i class="bi bi-plus-circle"></i> Crear
+            </button>
+
             <table>
-            <thead>
+                <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Acciones</th>
+                    <th><i class="bi bi-hash"></i> ID</th>
+                    <th><i class="bi bi-bookmark"></i> Nombre</th>
+                    <th><i class="bi bi-gear"></i> Acciones</th>
                 </tr>
-            </thead>
-            <tbody>
-                <tr th:each="carrera : ${list}">
+                </thead>
+                <tbody>
+                <tr th:each="carrera : ${carreras.content}">
                     <td th:text="${carrera.carrera_id}"></td>
                     <td th:text="${carrera.nombreCarrera}"></td>
                     <td>
-                        <button type="button" class="btn btn-warning" 
-                        th:data-id-carrera="${carrera.carrera_id}" 
-                        th:data-nombre-carrera="${carrera.nombreCarrera}">Editar</button>
-                        <a th:href="@{/materias/{id}(id=${carrera.carrera_id})}" class="action-link">Asignar Materias</a>
-
-            </td>
+                        <button type="button" class="btn btn-warning"
+                                th:data-id-carrera="${carrera.carrera_id}"
+                                th:data-nombre-carrera="${carrera.nombreCarrera}">
+                            <i class="bi bi-pencil-square"></i> Editar
+                        </button>
+                        <a th:href="@{/materias/{id}(id=${carrera.carrera_id})}" class="action-link">
+                            <i class="bi bi-book"></i> Asignar Materias
+                        </a>
+                    </td>
                 </tr>
-                
-                
-            </tbody>
-        </table>
-        <div class="pagination">
-            <a href="#">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">5</a>
-            <a href="#">6</a>
-            <a href="#">Siguiente &raquo;</a>
+                </tbody>
+            </table>
+
+            <!-- Paginación -->
+            <nav th:if="${carreras.totalPages > 1}" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <!-- Botón Anterior -->
+                    <li class="page-item" th:classappend="${carreras.number == 0} ? 'disabled'">
+                        <a class="page-link" th:href="@{/carreras(page=${carreras.number - 1})}" tabindex="-1">
+                            <i class="bi bi-chevron-left"></i> Anterior
+                        </a>
+                    </li>
+
+                    <!-- Números de página -->
+                    <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, carreras.totalPages - 1)}"
+                        th:classappend="${pageNumber == carreras.number} ? 'active'">
+                        <a class="page-link" th:href="@{/carreras(page=${pageNumber})}"
+                           th:text="${pageNumber + 1}"></a>
+                    </li>
+
+                    <!-- Botón Siguiente -->
+                    <li class="page-item" th:classappend="${carreras.number + 1 >= carreras.totalPages} ? 'disabled'">
+                        <a class="page-link" th:href="@{/carreras(page=${carreras.number + 1})}">
+                            Siguiente <i class="bi bi-chevron-right"></i>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
         </div>
-    </div>
 
 
-
-    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
+        <!-- Modal de CREAR -->
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="myModalLabel">Formulario de creacion de carreras</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" id="myModalLabel">Formulario de creación de carreras</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="/save" method="post">
                 <div class="modal-body">
-                    <p>Nombre Materia.</p>
+                    <p>Nombre de la carrera:</p>
                     <input type="text" name="nombreCarrera" class="form-control">
                 </div>
                 <div class="modal-footer">
@@ -148,75 +281,86 @@
                     <button type="submit" class="btn btn-primary">Guardar</button>
                 </div>
             </form>
-          </div>
         </div>
-      </div>
+    </div>
+</div>
 
-      <!-- Modal para editar la carrera -->
-<!-- Modal para editar la carrera -->
+<!-- Modal de EDITAR -->
 <div class="modal" tabindex="-1" id="editModal">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Editar Carrera</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form action="/actu" method="post">
-            <!-- Campo oculto para el ID de la carrera -->
-            <input type="" id="idCarrera" name="idCarrera"  />
-  
-            <div class="mb-3">
-              <label for="nombreCarrera" class="form-label">Nombre de la carrera</label>
-              <input type="text" class="form-control" id="nombreCarrera" name="nombreCarrera" />
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Carrera</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-  
-            <button type="submit" class="btn btn-primary">Guardar</button>
-          </form>
+            <div class="modal-body">
+                <form action="/actu" method="post">
+                    <!-- Campo oculto para el ID de la carrera -->
+                    <input type="hidden" id="idCarrera" name="idCarrera"  />
+
+                    <div class="mb-3">
+                        <label for="nombreCarrera" class="form-label">Nombre de la carrera</label>
+                        <input type="text" class="form-control" id="nombreCarrera" name="nombreCarrera" />
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </form>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-  
-  
-      
-    <script>
-  // Delegado de eventos para manejar los clics en los botones de "Editar"
-document.querySelector('tbody').addEventListener('click', function(e) {
-    if (e.target && e.target.matches('button.btn-warning')) {
-        // Obtenemos el id y el nombre de la carrera desde los atributos data-*
-        const idCarrera = e.target.getAttribute('data-id-carrera');
-        const nombreCarrera = e.target.getAttribute('data-nombre-carrera');
-        openModal(idCarrera, nombreCarrera);
+</div>
+
+<script>
+    // Delegado de eventos para manejar los clics en los botones de "Editar"
+    document.querySelector('tbody').addEventListener('click', function(e) {
+        if (e.target && e.target.matches('button.btn-warning')) {
+            // Obtenemos el id y el nombre de la carrera desde los atributos data-*
+            const idCarrera = e.target.getAttribute('data-id-carrera');
+            const nombreCarrera = e.target.getAttribute('data-nombre-carrera');
+            openModal(idCarrera, nombreCarrera);
+        }
+    });
+
+    // Función para abrir el modal y mostrar tanto el id como el nombre de la carrera
+    function openModal(idCarrera, nombreCarrera) {
+        // Asignamos el nombre de la carrera al campo del formulario en el modal
+        document.getElementById('nombreCarrera').value = nombreCarrera;
+        // Asignamos el id de la carrera al campo oculto del formulario
+        document.getElementById('idCarrera').value = idCarrera;
+
+        // Verificar en consola que los valores sean correctos antes de enviar
+        console.log("ID Carrera:", idCarrera);
+        console.log("Nombre Carrera:", nombreCarrera);
+
+        // Usamos Bootstrap para mostrar el modal
+        var myModal = new bootstrap.Modal(document.getElementById('editModal'));
+        myModal.show();
     }
-});
 
-// Función para abrir el modal y mostrar tanto el id como el nombre de la carrera
-function openModal(idCarrera, nombreCarrera) {
-    // Asignamos el nombre de la carrera al campo del formulario en el modal
-    document.getElementById('nombreCarrera').value = nombreCarrera;
-    // Asignamos el id de la carrera al campo oculto del formulario
-    document.getElementById('idCarrera').value = idCarrera;
+    // Función para cerrar las notificaciones manualmente
+    function closeNotification(notificationId) {
+        const notification = document.getElementById(notificationId);
+        if (notification) {
+            notification.style.display = 'none';
+        }
+    }
 
-    // Verificar en consola que los valores sean correctos antes de enviar
-    console.log("ID Carrera:", idCarrera);
-    console.log("Nombre Carrera:", nombreCarrera);
+    // Función para mostrar la notificación durante 5 segundos y luego ocultarla
+    function showNotification(notificationId) {
+        const notification = document.getElementById(notificationId);
+        if (notification) {
+            notification.style.display = 'flex'; // Muestra la notificación
+            setTimeout(() => {
+                notification.style.display = 'none'; // Oculta después de 5 segundos
+            }, 5000);
+        }
+    }
 
-    // Usamos Bootstrap para mostrar el modal
-    var myModal = new bootstrap.Modal(document.getElementById('editModal'));
-    myModal.show();
-}
+</script>
 
-    </script>
-    
-    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
-
-
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
