@@ -21,4 +21,23 @@ public class Profesor {
 
     @Column(name = "estado")
     private String estado = "activo";
+
+    @PrePersist
+    public void asignarRolPorDefecto() {
+        // Si no se ha asignado un rol y es una inserción, asignar el rol por defecto
+        if (this.rol_id == null) {
+            this.rol_id = new Roles();
+            this.rol_id.setRol_id(2L); // Cambia 1 por el ID del rol que desees como por defecto
+        }
+    }
+
+    @PreUpdate
+    public void noActualizarRol() {
+        // Si ya existe un rol asignado, no hacer nada
+        if (this.rol_id != null) {
+            return;
+        }
+    }
+
+
 }

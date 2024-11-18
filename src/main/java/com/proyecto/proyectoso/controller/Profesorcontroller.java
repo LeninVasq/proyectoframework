@@ -118,7 +118,7 @@ public class Profesorcontroller {
         String estado = (String) session.getAttribute("estado");
         String rol = (String) session.getAttribute("rol");
 
-
+        if (estado.equals("jb")){
             if (rol.equals("admin")) {
 
                 return "Admin/Index";
@@ -128,7 +128,9 @@ public class Profesorcontroller {
             } else {
                 return "index";
             }
-
+        }else {
+            return "index";
+        }
     }
 
 

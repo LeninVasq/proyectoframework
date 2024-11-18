@@ -158,11 +158,14 @@
 
 
             <td>
-                <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
-                        th:data-id="${profesores.profesor_id}"
-                        th:data-nombre="${profesores.nombre}">
-                    <i class="fas fa-edit"></i> Editar
-                </button>
+                <button type="button" class="btn btn-warning btn-sm editar-profesor"
+                th:data-id="${profesores.profesor_id}"
+                th:data-nombre="${profesores.nombre}"
+                th:data-apellido="${profesores.apellido}"
+                th:data-correo="${profesores.correo}">
+            <i class="fas fa-edit"></i> Editar
+        </button>
+
                 <a th:href="@{/grupos/{id}(id=${profesores.profesor_id})}" class="action-link">
                     <i class="bi bi-book"></i> Asignar grupos
                 </a>
@@ -195,6 +198,10 @@
             eyeIcon.classList.add("fa-eye");
         }
     }
+
+
+    
+    
 </script>
 
 
@@ -239,7 +246,6 @@
     </div>
 </div>
 
-
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -247,24 +253,93 @@
                 <h5 class="modal-title" id="editModalLabel">Editar Profesor</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                <form method="post" action="/guardarprofe" id="editAlumnoForm">
+            <form id="editForm" action="/updateprofe" method="post">
+                <div class="modal-body">
+                    <!-- Campo oculto para el ID del profesor -->
+                    <input type="" id="profesorId" name="profesor_id">
+
+
                     <div class="mb-3">
-                        <label for="editAlumnoId" class="form-label">IDS</label>
-                        <input type="text"  name="grupo_id" class="form-control" id="editAlumnoId" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editNombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" name="nombreGrupo" id="editNombre">
+                        <label for="nombreProfesor" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombreProfesor" name="nombre" required>
                     </div>
 
+                    <div class="mb-3">
+                        <label for="apellidoProfesor" class="form-label">Apellido</label>
+                        <input type="text" class="form-control" id="apellidoProfesor" name="apellido" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="estadoProfesor" class="form-label">Estado</label>
+                        <select class="form-control" id="estadoProfesor" name="estado" required>
+                            <option value="activo">Activo</option>
+                            <option value="inactivo">Inactivo</option>
+                        </select>
+                    </div>
+                    
+
+                    <div class="mb-3">
+                        <label for="correoProfesor" class="form-label">Correo</label>
+                        <input type="email" class="form-control" id="correoProfesor" name="correo" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="studentPassword" class="form-label">Contraseña</label>
+                        <input type="password" class="form-control" name="contra" id="studentPassword" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary">Guardar Cambios</button>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Obtener todos los botones de edición
+        const editButtons = document.querySelectorAll('.editar-profesor');
+
+        // Agregar evento click a cada botón
+        editButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Obtener datos del botón
+                const profesorId = this.getAttribute('data-id');
+                const nombre = this.getAttribute('data-nombre');
+                const apellido = this.getAttribute('data-apellido');
+                const correo = this.getAttribute('data-correo');
+
+                // Llenar el modal con los datos
+                document.getElementById('profesorId').value = profesorId;
+                document.getElementById('nombreProfesor').value = nombre;
+                document.getElementById('apellidoProfesor').value = apellido;
+                document.getElementById('correoProfesor').value = correo;
+
+                // Abrir el modal
+                const modal = new bootstrap.Modal(document.getElementById('editModal'));
+                modal.show();
+            });
+        });
+
+        // Manejar el envío del formulario
+        document.getElementById('editForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Validar el formulario si es necesario
+            if (!this.checkValidity()) {
+                e.stopPropagation();
+                return;
+            }
+
+            // Enviar el formulario
+            this.submit();
+        });
+    });
+</script>
 <!-- JavaScript to Populate Modal -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
