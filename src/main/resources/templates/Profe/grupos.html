@@ -98,44 +98,21 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="grupo : ${grupos.content}">
-            <td th:text="${grupo.grupo_id}"></td>
-            <td th:text="${grupo.nombreGrupo}"></td>
-            <td>
-                <div class="action-btn">
-                    <button type="button" class="btn btn-warning btn-sm"
-                            th:data-id-grupo="${grupo.grupo_id}"
-                            th:data-nombre-grupo="${grupo.nombreGrupo}">
-                        <i class="fas fa-edit"></i> Asistencia
-                    </button>
-                    <a th:href="@{/detalleGrupo/{id}(id=${grupo.grupo_id})}" class="btn btn-info btn-sm">
-                        <i class="fas fa-info-circle"></i> Detalles
+            <tr th:each="grupos : ${lista}">
+                <!-- Acceder a cada elemento del arreglo -->
+                <td th:text="${grupos[1]}"></td> <!-- nombre_materia -->
+                <td th:text="${grupos[0]}"></td>
+                <td>
+                    <a th:href="@{/asistencia/{id}(id=${grupos[1]})}" class="action-link">
+                        <i class="bi bi-book"></i> Asignar Materias
                     </a>
-                </div>
-            </td>
-        </tr>
+                </td>
+
+            </tr>
         </tbody>
     </table>
 
-    <!-- Paginación -->
-    <nav th:if="${grupos.totalPages > 1}">
-        <ul class="pagination">
-            <li th:classappend="${grupos.number == 0} ? 'disabled'">
-                <a class="page-link" th:href="@{/grupos(page=${grupos.number - 1})}">
-                    <i class="fas fa-chevron-left"></i> Anterior
-                </a>
-            </li>
-            <li th:each="pageNumber : ${#numbers.sequence(0, grupos.totalPages - 1)}"
-                th:classappend="${pageNumber == grupos.number} ? 'active'">
-                <a class="page-link" th:href="@{/grupos(page=${pageNumber})}" th:text="${pageNumber + 1}"></a>
-            </li>
-            <li th:classappend="${grupos.number + 1 >= grupos.totalPages} ? 'disabled'">
-                <a class="page-link" th:href="@{/grupos(page=${grupos.number + 1})}">
-                    Siguiente <i class="fas fa-chevron-right"></i>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>

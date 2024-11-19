@@ -18,6 +18,12 @@ public class Cruposservice {
     public List<Grupos> getGrupo(){
         return gruposRepository.findAll();
     }
+
+
+
+    public List<Object[]> getGrupocorro(String correo){
+        return gruposRepository.obtenerGruposPorCorreo(correo);
+    }
     public Optional<Grupos> getGrupoid(Long id){
         return gruposRepository.findById(id);
     }

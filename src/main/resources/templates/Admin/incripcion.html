@@ -112,7 +112,12 @@
                         <i class="fas fa-user-plus nav-icon"></i> Carreras
                     </a>
                 </li>
-
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">
+                        <i class="fas fa-sign-out-alt nav-icon"></i> Cerrar sesión
+                    </a>
+                </li>
+                
             </ul>
         </div>
     </div>
@@ -132,9 +137,11 @@
     <thead>
     <tr>
       <th>ID</th>
+      <th>Materia</th>
       <th>Nombre grupo</th>
-      <th>Nombre materia</th>
+      <th>Nombre Profesor</th>
       <th>Nombre carrera</th>
+     
       <th>Fecha_creacion</th>
 
       <th>Acciones</th>
@@ -144,26 +151,23 @@
         
 
         <tr th:each="inscripcion : ${inscripciones}">
-    <!-- Mostrar el id de la inscripción -->
-    <td th:text="${inscripcion.incripcion_id}"></td>
-    
-    <!-- Mostrar el nombre del grupo relacionado -->
-    <td th:text="${inscripcion.grupo_id.nombreGrupo}"></td>
-
-    <!-- Mostrar el nombre de la materia relacionada -->
-    <td th:text="${inscripcion.materia_id.nombreMateria}"></td>
-    
-    
-
-    
-    <td>
-        <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#editModal"
-                th:data-id="${inscripcion.grupo_id.grupo_id}"
-                th:data-nombre="${inscripcion.grupo_id.nombreGrupo}">
-            <i class="fas fa-edit"></i> Editar
-        </button>
-    </td>
-</tr>
+            <!-- Acceder a cada elemento del arreglo -->
+            <td th:text="${inscripcion[0]}"></td> <!-- nombre_materia -->
+            <td th:text="${inscripcion[1]}"></td> <!-- nombre_grupo -->
+            <td th:text="${inscripcion[2]}"></td> <!-- fecha_inscripcion -->
+            <td th:text="${inscripcion[3] + ' ' + inscripcion[4]}"></td><!-- apellido (profesor) -->
+            <td th:text="${inscripcion[6]}"></td> <!-- nombre_carrera -->
+            <td th:text="${#dates.format(inscripcion[5], 'dd/MM/yyyy')}"></td>
+        
+            <td>
+                <form method="post" action="/eliminarRegistro"> 
+                    <input type="hidden" name="alumnoid" th:value="${alumno}">
+                    <input type="hidden" name="idInscripcion" th:value="${inscripcion[0]}" />
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </form>
+            </td>
+        </tr>
+        
 
         
         
@@ -182,8 +186,8 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form method="post" action="/addgrupos" id="addStudentForm">
-            <!-- Primer select para seleccionar el profesor -->
+          <form method="post" action="/addincrip" id="addStudentForm">
+            <input type="hidden" name="alumnoid" th:value="${alumno}">
             <div class="mb-3">
                 <label for="selectGrupo" class="form-label">Grupo</label>
                 <select class="form-select" id="selectGrupo" name="grupo_id" required>
@@ -197,22 +201,20 @@
             
             <div class="mb-3">
               <label for="selectMateria" class="form-label">Carrera</label>
-              <select class="form-select" id="selectMateria" name="materia_id" required>
+              <select class="form-select" id="selectCarrera" name="carrera_id" required onchange="cargarMaterias()">
                 <option selected disabled>Seleccione una carrera</option>
-                <option selected disabled>Seleccione un grupo</option>
-                <!-- Iterar sobre la lista de grupos -->
                 <option th:each="carrera : ${listarc}" 
                         th:value="${carrera.carrera_id}" 
-                        th:text="${carrera.nombreCarrera}"></option>              </select>
-            </div>
-
+                        th:text="${carrera.nombreCarrera}"></option>
+            </select>
+            
             <div class="mb-3">
                 <label for="selectMateria" class="form-label">Materia</label>
                 <select class="form-select" id="selectMateria" name="materia_id" required>
-                  <option selected disabled>Seleccione una materia</option>
-                  <option th:each="materia : ${materias}" th:value="${materia.id}" th:text="${materia.nombre}"></option>
+                    <option selected disabled>Seleccione una materia</option>
                 </select>
-              </div>
+            </div>
+            
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -222,6 +224,32 @@
       </div>
     </div>
   </div>
+
+
+
+
+  <script>
+    function cargarMaterias() {
+        var carreraId = document.getElementById('selectCarrera').value;
+        if (carreraId) {
+            fetch('/obtenerMaterias?carreraId=' + carreraId)
+                .then(response => response.json())
+                .then(data => {
+                    var selectMateria = document.getElementById('selectMateria');
+                    selectMateria.innerHTML = '<option selected disabled>Seleccione una materia</option>'; // Resetea el select
+                    
+                    data.forEach(function(materia) {
+                        var option = document.createElement('option');
+                        option.value = materia[0];  // ID de la materia
+                        option.textContent = materia[1];  // Nombre de la materia
+                        selectMateria.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    }
+</script>
+
   
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
   <div class="modal-dialog">

@@ -73,7 +73,7 @@ public class Profesorcontroller {
         String rol = (String) session.getAttribute("rol");
 
         if (rol == null) {
-            return "redirect:/login"; // Cambia según tu lógica
+            return "redirect:/login";
         }
 
         switch (rol) {
@@ -100,9 +100,8 @@ public class Profesorcontroller {
 
         if (autenticado) {
             String rol = profesorService.emaillogin(email);
-            String estado = profesorService.emailloginp(email);
-            session.setAttribute("estado", estado);
             session.setAttribute("rol", rol);
+            session.setAttribute("correo", email);
             return "redirect:/usuario";
         } else {
             return "index";
@@ -117,19 +116,17 @@ public class Profesorcontroller {
         String estado = (String) session.getAttribute("estado");
         String rol = (String) session.getAttribute("rol");
 
-        if (estado.equals("jb")){
-            if (rol.equals("admin")) {
 
-                return "Admin/Index";
-            } else if (rol.equals("profe")) {
-                return "Profe/Index";
+        if (rol.equals("admin")) {
 
-            } else {
-                return "index";
-            }
-        }else {
+            return "Admin/Index";
+        } else if (rol.equals("profe")) {
+            return "Profe/Index";
+
+        } else {
             return "index";
         }
+
     }
 
 

@@ -3,7 +3,8 @@
     import jakarta.persistence.*;
     import lombok.Data;
 
-    import java.sql.Date;
+    import java.util.Date;
+
 
     @Data
     @Entity
@@ -29,10 +30,16 @@
         private Grupos grupo_id;
 
         @Column(name = "estado")
-        private String estado = "activo";
+        private String estado = "inscripto";
 
         private Date feha_incripcion;
 
+        @PrePersist
+        public void setFechaIncripcion() {
+            if (this.feha_incripcion == null) {
+                this.feha_incripcion =  new java.util.Date(); // Asigna la fecha actual si no se ha establecido una fecha
+            }
+        }
 
 
     }

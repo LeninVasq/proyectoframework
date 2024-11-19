@@ -25,6 +25,10 @@ public class MateriasService {
     //}
 
 
+    public List<Object[]> obtenerDatosDeAlumno(Long carreraId) {
+        return materiaRepository.obtenerMateriasPorCarrera(carreraId);
+    }
+
     public List<Materias> getMateriasnombre(String materia){
         return materiaRepository.findByNombreMateria(materia);
     }

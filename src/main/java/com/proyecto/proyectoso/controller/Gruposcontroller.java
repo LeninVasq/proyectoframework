@@ -2,11 +2,10 @@ package com.proyecto.proyectoso.controller;
 
 
 
-import com.proyecto.proyectoso.entity.Alumnos;
 import com.proyecto.proyectoso.entity.Grupos;
-import com.proyecto.proyectoso.entity.Materias;
 import com.proyecto.proyectoso.service.Cruposservice;
 import com.proyecto.proyectoso.service.ProfesorService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,7 +53,13 @@ public class Gruposcontroller {
 
 
     @RequestMapping("/grupos12")
-    public String vercarreras() {
+    public String vercarreras(HttpSession session, Model modelo) {
+        String correo = (String) session.getAttribute("correo");
+
+        List<Object[]> lista=  gruposService.getGrupocorro(correo);
+
+        modelo.addAttribute("lista", lista);
+
 
 
         return "Profe/grupos";

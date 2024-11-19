@@ -112,6 +112,11 @@
                             <i class="fas fa-user-plus nav-icon"></i> Carreras
                         </a>
                     </li>
+                    <li class="nav-item">
+                      <a class="nav-link" href="/logout">
+                          <i class="fas fa-sign-out-alt nav-icon"></i> Cerrar sesión
+                      </a>
+                  </li>
 
                 </ul>
             </div>
@@ -169,6 +174,7 @@
           <div class="modal-body">
             <form  method="post" action="/addgrupos" id="addStudentForm">
               <div class="mb-3">
+
                 <label for="studentName" class="form-label">Nombre</label>
                 <input type="hidden" class="form-control" id="nombreMateria" name="profesor_id" th:value="${profesor}" required>
                 <input type="hidden" name="id" th:value="${profesor}" required>

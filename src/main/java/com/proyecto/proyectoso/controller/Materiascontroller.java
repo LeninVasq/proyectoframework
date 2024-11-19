@@ -73,10 +73,10 @@ public class Materiascontroller {
 
 
 
-    @PostMapping("/guardarmaterias")
-    public String saveSS(@RequestParam("materiaId") Long materiaId,
-                         @RequestParam("nombreCarrera") String nombreCarrera,
-                         @RequestParam("descripcionCarrera") String descripcionCarrera, RedirectAttributes redirectAttributes) {
+        @PostMapping("/guardarmaterias")
+        public String saveSS(@RequestParam("materiaId") Long materiaId,
+                             @RequestParam("nombreCarrera") String nombreCarrera,
+                             @RequestParam("descripcionCarrera") String descripcionCarrera, RedirectAttributes redirectAttributes) {
         try {
             Carreras carrera = carrerasService.getcarreraid(materiaId)
                     .orElseThrow(() -> new IllegalArgumentException("Carrera no encontrada con ID: " + materiaId));
