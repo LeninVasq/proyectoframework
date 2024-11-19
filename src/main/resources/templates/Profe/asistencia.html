@@ -71,22 +71,19 @@
         </tr>
       </thead>
       <tbody>
+        
         <tr th:each="inscripcion : ${inscripciones}">
-          <!-- Acceder a cada elemento del arreglo -->
           <td th:text="${inscripcion[0]}"></td> <!-- ID del estudiante -->
           <td th:text="${inscripcion[1] + ' ' + inscripcion[2]}"></td> <!-- Nombre y Apellido -->
     
-          <!-- Botones de opción para "Presente" -->
           <td>
             <input type="radio" th:name="'estado_' + ${inscripcion[0]}" th:value="'presente'" /> 
           </td>
           
-          <!-- Botones de opción para "Tarde" -->
           <td>
             <input type="radio" th:name="'estado_' + ${inscripcion[0]}" th:value="'tarde'" /> 
           </td>
           
-          <!-- Botones de opción para "Ausente" -->
           <td>
             <input type="radio" th:name="'estado_' + ${inscripcion[0]}" th:value="'ausente'" />
           </td>
